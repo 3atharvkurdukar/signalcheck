@@ -1,37 +1,106 @@
+import Header from "../components/Header";
+import ServiceStatus from "../components/ServiceStatus";
+import IncidentMaintenance from "../components/IncidentMaintenance";
+import Timeline from "../components/Timeline";
+import {
+  services,
+  activeIncidents,
+  scheduledMaintenances,
+  timelineItems,
+  getOverallStatus,
+} from "../lib/mockData";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
-export default function HomePage() {
+export default async function Home() {
+  const overallStatus = getOverallStatus();
+  const { userId } = await auth();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {userId && (
+          <div className="mb-8">
+            <Link
+              href="/admin"
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
+            >
+              Go to Admin Dashboard
+            </Link>
+          </div>
+        )}
+        <div className="mb-8 overflow-hidden rounded-lg bg-white shadow">
+          <div className="p-6">
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+              Current Status
+            </h2>
+            <p
+              className={`mb-6 text-lg font-medium ${
+                overallStatus === "All Systems Operational"
+                  ? "text-green-600"
+                  : overallStatus === "Degraded System Performance"
+                    ? "text-yellow-600"
+                    : overallStatus === "Partial System Outage"
+                      ? "text-orange-600"
+                      : "text-red-600"
+              }`}
+            >
+              {overallStatus}
+            </p>
+            <div className="space-y-4">
+              {services.map((service, index) => (
+                <ServiceStatus
+                  key={index}
+                  name={service.name}
+                  status={service.status}
+                />
+              ))}
             </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+          </div>
         </div>
-      </div>
-    </main>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="overflow-hidden rounded-lg bg-white shadow">
+            <div className="p-6">
+              <h2 className="mb-4 text-xl font-semibold text-gray-900">
+                Active Incidents
+              </h2>
+              {activeIncidents.length > 0 ? (
+                activeIncidents.map((incident, index) => (
+                  <IncidentMaintenance key={index} {...incident} />
+                ))
+              ) : (
+                <p className="text-gray-500">No active incidents</p>
+              )}
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-lg bg-white shadow">
+            <div className="p-6">
+              <h2 className="mb-4 text-xl font-semibold text-gray-900">
+                Scheduled Maintenance
+              </h2>
+              {scheduledMaintenances.length > 0 ? (
+                scheduledMaintenances.map((maintenance, index) => (
+                  <IncidentMaintenance key={index} {...maintenance} />
+                ))
+              ) : (
+                <p className="text-gray-500">No scheduled maintenance</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 overflow-hidden rounded-lg bg-white shadow">
+          <div className="p-6">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              Recent Incidents and Updates
+            </h2>
+            <Timeline items={timelineItems} />
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
