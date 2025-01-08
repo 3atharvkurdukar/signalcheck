@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Service {
-    id            Int            @id @default(autoincrement())
-    name          String         @unique
-    statusUpdates StatusUpdate[]
+    id            Int             @id @default(autoincrement())
+    name          String          @unique
+    statusHistory StatusHistory[]
 }
 
-model StatusUpdate {
+model StatusHistory {
     id          Int           @id @default(autoincrement())
     date        DateTime
     status      ServiceStatus

@@ -4,7 +4,7 @@ import IncidentListCard from "~/components/IncidentListCard";
 import { Button } from "~/components/ui/button";
 import Header from "../components/Header";
 import MaintenanceListCard from "../components/MaintenanceListCard";
-import ServiceListCard from "../components/ServiceListCard";
+import ServiceList from "../components/ServiceList";
 import GET from "./api/status/route";
 
 export default async function Home() {
@@ -23,7 +23,7 @@ export default async function Home() {
             </Button>
           </div>
         )}
-        <ServiceListCard services={services} overallStatus={overallStatus} />
+        <ServiceList services={services} overallStatus={overallStatus} />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <IncidentListCard incidents={activeIncidents} />

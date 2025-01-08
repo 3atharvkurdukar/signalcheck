@@ -6,47 +6,9 @@ import {
   HelpCircle,
   XOctagon,
 } from "lucide-react";
-import { type ServiceUpdate } from "types";
 import { getServiceStatusName } from "~/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-interface ServiceListCardProps {
-  services: ServiceUpdate[];
-  overallStatus: ServiceStatus;
-}
-
-export const ServiceListCard = ({
-  services,
-  overallStatus,
-}: ServiceListCardProps) => {
-  return (
-    <Card className="mb-8">
-      <CardHeader>
-        <CardTitle>Current Status</CardTitle>
-        <div className="mb-6 text-xs">
-          <StatusLabel status={overallStatus} />
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        {services.length > 0 ? (
-          services.map(({ name, status }, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between border-b py-3 last:border-b-0"
-            >
-              <span className="text-gray-700">{name}</span>
-              <StatusLabel status={status as ServiceStatus | null} showIcon />
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No registered services</p>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
-
-const StatusLabel = ({
+export const StatusLabel = ({
   status,
   showIcon = false,
 }: {
@@ -91,4 +53,4 @@ const StatusLabel = ({
   );
 };
 
-export default ServiceListCard;
+export default StatusLabel;

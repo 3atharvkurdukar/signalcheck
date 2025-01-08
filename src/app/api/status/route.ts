@@ -21,28 +21,21 @@ export default async function GET() {
 const getLatestServiceUpdates = async (): Promise<ServiceUpdate[]> => {
   const services = await db.service.findMany({
     include: {
-      statusUpdates: {
+      statusHistory: {
         orderBy: {
           date: "desc",
         },
-        take: 1,
       },
     },
   });
 
   return services.map((service) => {
-    const latestUpdate = service.statusUpdates.at(0);
-    if (!latestUpdate) {
-      return {
-        name: service.name,
-        status: null,
-        date: null,
-      };
-    }
+    const latestStatus = service.statusHistory.at(0);
     return {
       name: service.name,
-      status: "" + latestUpdate.status,
-      date: latestUpdate.date,
+      status: latestStatus?.status ?? null,
+      date: latestStatus?.date ?? null,
+      statusHistory: service.statusHistory,
     };
   });
 };
