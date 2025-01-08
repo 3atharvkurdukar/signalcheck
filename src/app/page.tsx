@@ -1,9 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import IncidentListCard from "~/components/IncidentListCard";
+import IncidentList from "~/components/IncidentList";
 import { Button } from "~/components/ui/button";
 import Header from "../components/Header";
-import MaintenanceListCard from "../components/MaintenanceListCard";
+import MaintenanceList from "../components/MaintenanceList";
 import ServiceList from "../components/ServiceList";
 import GET from "./api/status/route";
 
@@ -26,9 +26,9 @@ export default async function Home() {
         <ServiceList services={services} overallStatus={overallStatus} />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <IncidentListCard incidents={activeIncidents} />
+          <IncidentList incidents={activeIncidents} />
 
-          <MaintenanceListCard maintenanceEvents={maintenanceEvents} />
+          <MaintenanceList maintenanceEvents={maintenanceEvents} />
         </div>
       </main>
     </div>
