@@ -7,6 +7,11 @@ const poppins = Poppins({
   weight: ["400", "700"], // You can specify the weights you need
 });
 
+export const metadata = {
+  title: "SignalCheck",
+  description: "Monitor the status of your services in real-time",
+};
+
 export default function RootLayout({
   children,
 }: {
