@@ -1,23 +1,14 @@
-import { type Maintenance as MaintenanceType } from "@prisma/client";
 import { Calendar, Clock, PenToolIcon as Tool } from "lucide-react";
+import { type MaintenanceDetails } from "types";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
-interface MaintenanceProps {
-  id: string;
-  title: string;
-  service: string;
-  startTime: string;
-  endTime: string;
-  description: string;
-}
-
 export default function Maintenance({
   title,
-  // service,
+  service,
   startTime,
   endTime,
-}: MaintenanceType) {
+}: MaintenanceDetails) {
   const start = new Date(startTime);
   const end = new Date(endTime);
   const isOngoing = new Date() >= start && new Date() < end;
@@ -32,11 +23,11 @@ export default function Maintenance({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-4 grid grid-cols-2 gap-4">
-          {/* <div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
             <p className="text-sm text-gray-500">Service</p>
-            <p className="font-medium">{service}</p>
-          </div> */}
+            <p className="font-medium">{service.name}</p>
+          </div>
           <div>
             <p className="text-sm text-gray-500">Status</p>
             {isOngoing && <Badge variant="outline">Ongoing</Badge>}
@@ -64,10 +55,6 @@ export default function Maintenance({
             </p>
           </div>
         </div>
-        {/* <div>
-          <p className="mb-1 text-sm text-gray-500">Description</p>
-          <p className="text-sm">{description}</p>
-        </div> */}
       </CardContent>
     </Card>
   );

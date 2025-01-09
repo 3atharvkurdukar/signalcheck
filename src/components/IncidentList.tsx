@@ -1,11 +1,11 @@
-import { type IncidentWithTimeline } from "types";
+import { type IncidentDetails } from "types";
 import Incident from "./Incident";
 import { Card, CardContent } from "./ui/card";
 
 export default function IncidentList({
   incidents,
 }: {
-  incidents: IncidentWithTimeline[];
+  incidents: IncidentDetails[];
 }) {
   return (
     <div>

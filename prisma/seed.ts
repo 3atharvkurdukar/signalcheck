@@ -3,150 +3,175 @@ import { PrismaClient, ServiceStatus } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // await prisma.service.createMany({
-  //   data: [
-  //     {
-  //       name: "API",
-  //     },
-  //     {
-  //       name: "Web App",
-  //     },
-  //     {
-  //       name: "Database",
-  //     },
-  //     {
-  //       name: "CDN",
-  //     },
-  //     {
-  //       name: "Authentication",
-  //     },
-  //   ],
-  // });
-
-  await prisma.statusHistory.create({
+  await prisma.service.create({
     data: {
-      service: {
-        connect: {
-          name: "API",
+      name: "API",
+      statusHistory: {
+        createMany: {
+          data: [
+            {
+              status: ServiceStatus.DEGRADED,
+              date: new Date("2025-01-09 12:00 UTC"),
+            },
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-08 12:00 UTC"),
+            },
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-07 12:00 UTC"),
+            },
+          ],
         },
       },
-      status: ServiceStatus.OPERATIONAL,
-      date: new Date("2024-06-15 14:30 UTC"),
+      incidents: {
+        create: {
+          title: "Increased API Latency",
+          status: "IDENTIFIED",
+          createdAt: new Date("2025-01-09 12:00 UTC"),
+          updatedAt: new Date("2025-01-09 12:00 UTC"),
+          timeline: {
+            createMany: {
+              data: [
+                {
+                  message: "We have identified increased latency in the API",
+                  date: new Date("2025-01-09 12:00 UTC"),
+                },
+              ],
+            },
+          },
+        },
+      },
     },
   });
 
-  await prisma.statusHistory.create({
+  await prisma.service.create({
     data: {
-      service: {
-        connect: {
-          name: "Web App",
+      name: "Web App",
+      statusHistory: {
+        createMany: {
+          data: [
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-09 12:00 UTC"),
+            },
+            {
+              status: ServiceStatus.PARTIAL_OUTAGE,
+              date: new Date("2025-01-08 12:00 UTC"),
+            },
+          ],
         },
       },
-      status: ServiceStatus.DEGRADED,
-      date: new Date("2024-06-15 14:30 UTC"),
+      incidents: {
+        create: {
+          title: "Web App Outage",
+          status: "RESOLVED",
+          createdAt: new Date("2025-01-08 12:00 UTC"),
+          updatedAt: new Date("2025-01-08 12:16 UTC"),
+          timeline: {
+            createMany: {
+              data: [
+                {
+                  message: "We have identified an outage in the Web App",
+                  date: new Date("2025-01-08 12:00 UTC"),
+                },
+                {
+                  message: "We have resolved the outage in the Web App",
+                  date: new Date("2025-01-08 12:16 UTC"),
+                },
+              ],
+            },
+          },
+        },
+      },
     },
   });
 
-  await prisma.statusHistory.create({
+  await prisma.service.create({
     data: {
-      service: {
-        connect: {
-          name: "Database",
+      name: "Database",
+      statusHistory: {
+        createMany: {
+          data: [
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-09 12:00 UTC"),
+            },
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-08 12:00 UTC"),
+            },
+          ],
         },
       },
-      status: ServiceStatus.PARTIAL_OUTAGE,
-      date: new Date("2024-06-15 12:30 UTC"),
+      maintenances: {
+        createMany: {
+          data: [
+            {
+              title: "Database Upgrade",
+              startTime: new Date("2025-01-16 02:00 UTC"),
+              endTime: new Date("2025-01-16 04:00 UTC"),
+            },
+          ],
+        },
+      },
     },
   });
 
-  await prisma.statusHistory.create({
+  await prisma.service.create({
     data: {
-      service: {
-        connect: {
-          name: "Database",
+      name: "CDN",
+      statusHistory: {
+        createMany: {
+          data: [
+            {
+              status: ServiceStatus.OPERATIONAL,
+              date: new Date("2025-01-09 12:00 UTC"),
+            },
+            {
+              status: ServiceStatus.MAJOR_OUTAGE,
+              date: new Date("2025-01-08 12:00 UTC"),
+            },
+          ],
         },
       },
-      status: ServiceStatus.OPERATIONAL,
-      date: new Date("2024-06-15 14:30 UTC"),
-    },
-  });
-
-  await prisma.statusHistory.create({
-    data: {
-      service: {
-        connect: {
-          name: "CDN",
+      incidents: {
+        create: {
+          title: "CDN Outage in EU Region",
+          status: "RESOLVED",
+          createdAt: new Date("2025-01-08 12:00 UTC"),
+          updatedAt: new Date("2025-01-08 14:20 UTC"),
+          timeline: {
+            createMany: {
+              data: [
+                {
+                  message:
+                    "We have identified an outage in the EU region for the CDN",
+                  date: new Date("2025-01-08 12:00 UTC"),
+                },
+                {
+                  message:
+                    "We have resolved the outage in the EU region for the CDN",
+                  date: new Date("2025-01-08 14:20 UTC"),
+                },
+              ],
+            },
+          },
         },
       },
-      status: ServiceStatus.PARTIAL_OUTAGE,
-      date: new Date("2024-06-15 14:30 UTC"),
-    },
-  });
-
-  await prisma.statusHistory.create({
-    data: {
-      service: {
-        connect: {
-          name: "Authentication",
+      maintenances: {
+        createMany: {
+          data: [
+            {
+              title: "CDN Maintenance",
+              startTime: new Date("2025-01-06 02:00 UTC"),
+              endTime: new Date("2025-01-06 04:00 UTC"),
+            },
+          ],
         },
       },
-      status: ServiceStatus.OPERATIONAL,
-      date: new Date("2024-06-15 14:30 UTC"),
     },
   });
-
-  // const [inc1, inc2] = await prisma.incident.createManyAndReturn({
-  //   data: [
-  //     {
-  //       title: "Increased API Latency",
-  //       status: IncidentStatus.INVESTIGATING,
-  //       createdAt: new Date("2024-06-15 14:30 UTC"),
-  //       updatedAt: new Date("2024-06-15 14:30 UTC"),
-  //     },
-  //     {
-  //       title: "CDN Outage in EU Region",
-  //       status: IncidentStatus.IDENTIFIED,
-  //       createdAt: new Date("2024-06-15 12:45 UTC"),
-  //     },
-  //   ],
-  // });
-
-  // if (!!inc1 && !!inc2) {
-  //   await prisma.timelineItem.createMany({
-  //     data: [
-  //       {
-  //         message: "We are investigating increased latency in the API",
-  //         date: new Date("2024-06-15 14:30 UTC"),
-  //         incidentId: inc1.id,
-  //       },
-  //       {
-  //         message: "We have identified increased latency in the API",
-  //         date: new Date("2024-06-15 14:00 UTC"),
-  //         incidentId: inc1.id,
-  //       },
-  //       {
-  //         message: "We have identified an outage in the EU region for the CDN",
-  //         date: new Date("2024-06-15 12:45 UTC"),
-  //         incidentId: inc2.id,
-  //       },
-  //     ],
-  //   });
-  // }
-
-  // await prisma.maintenance.createMany({
-  //   data: [
-  //     {
-  //       title: "Database Upgrade",
-  //       startTime: new Date("2025-01-16 02:00 UTC"),
-  //       endTime: new Date("2025-01-16 04:00 UTC"),
-  //     },
-  //     {
-  //       title: "CDN Maintenance",
-  //       startTime: new Date("2025-01-01 02:00 UTC"),
-  //       endTime: new Date("2025-01-01 04:00 UTC"),
-  //     },
-  //   ],
-  // });
 }
 
 main()

@@ -1,5 +1,9 @@
-import { type Maintenance, type ServiceStatus } from "@prisma/client";
-import { type IncidentWithTimeline, type ServiceUpdate } from "types";
+import { type ServiceStatus } from "@prisma/client";
+import {
+  type IncidentDetails,
+  type MaintenanceDetails,
+  type ServiceUpdate,
+} from "types";
 import { db } from "~/server/db";
 
 export default async function GET() {
@@ -40,7 +44,7 @@ const getLatestServiceUpdates = async (): Promise<ServiceUpdate[]> => {
   });
 };
 
-const getUpcomingMaintenance = async (): Promise<Maintenance[]> => {
+const getUpcomingMaintenance = async (): Promise<MaintenanceDetails[]> => {
   const maintenanceEvents = await db.maintenance.findMany({
     where: {
       endTime: {
@@ -50,12 +54,15 @@ const getUpcomingMaintenance = async (): Promise<Maintenance[]> => {
     orderBy: {
       startTime: "asc",
     },
+    include: {
+      service: true,
+    },
   });
 
   return maintenanceEvents;
 };
 
-const getActiveIncidents = async (): Promise<IncidentWithTimeline[]> => {
+const getActiveIncidents = async (): Promise<IncidentDetails[]> => {
   const incidents = await db.incident.findMany({
     where: {
       status: {
@@ -71,6 +78,7 @@ const getActiveIncidents = async (): Promise<IncidentWithTimeline[]> => {
           date: "desc",
         },
       },
+      service: true,
     },
   });
 

@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import { type IncidentWithTimeline } from "types";
+import { type IncidentDetails } from "types";
 import {
   Accordion,
   AccordionContent,
@@ -10,12 +10,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export default function Incident({
   title,
-  // service,
+  service,
   status,
   createdAt,
   updatedAt,
   timeline,
-}: IncidentWithTimeline) {
+}: IncidentDetails) {
   return (
     <Card>
       <CardHeader>
@@ -25,11 +25,11 @@ export default function Incident({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-4 grid grid-cols-2 gap-4">
-          {/* <div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
             <p className="text-sm text-gray-500">Service</p>
-            <p className="font-medium">{service}</p>
-          </div> */}
+            <p className="font-medium">{service.name}</p>
+          </div>
           <div>
             <p className="text-sm text-gray-500">Status</p>
             <p className="font-medium">{status}</p>

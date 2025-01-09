@@ -1,6 +1,7 @@
 import {
   type Incident,
   type Maintenance,
+  type Service,
   type ServiceStatus,
   type StatusHistory,
   type TimelineItem,
@@ -13,13 +14,18 @@ export type ServiceUpdate = {
   statusHistory: StatusHistory[];
 };
 
-export type IncidentWithTimeline = Incident & {
+export type IncidentDetails = Incident & {
   timeline: TimelineItem[];
+  service: Service;
+};
+
+export type MaintenanceDetails = Maintenance & {
+  service: Service;
 };
 
 export type StatusResponse = {
   services: ServiceUpdate[];
   maintenanceEvents: Maintenance[];
-  activeIncidents: IncidentWithTimeline[];
+  activeIncidents: IncidentDetails[];
   overallStatus: ServiceStatus;
 };
