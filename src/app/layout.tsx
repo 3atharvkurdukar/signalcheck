@@ -1,6 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import "~/styles/globals.css";
+import { TRPCReactProvider } from "~/trpc/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,10 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={poppins.className}>
-        <body>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={poppins.className}>
+      <body>
+        <ClerkProvider>
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
