@@ -2,15 +2,21 @@ import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import IncidentList from "~/components/IncidentList";
 import { Button } from "~/components/ui/button";
+import { getOverallStatus } from "~/lib/utils";
+import { api } from "~/trpc/server";
 import Header from "../components/Header";
 import MaintenanceList from "../components/MaintenanceList";
 import ServiceList from "../components/ServiceList";
-import GET from "./api/status/route";
 
 export default async function Home() {
   const { userId } = await auth();
-  const { services, maintenanceEvents, activeIncidents, overallStatus } =
-    await GET();
+  const [services, activeIncidents, maintenanceEvents] = await Promise.all([
+    api.service.getLatestServiceUpdate(),
+    api.incident.listIncidents({ activeOnly: true }),
+    api.maintenance.listMaintenance({ activeOnly: true }),
+  ]);
+
+  const overallStatus = getOverallStatus(services);
 
   return (
     <div className="min-h-screen bg-zinc-100">
