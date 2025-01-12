@@ -16,12 +16,11 @@ model Service {
 }
 
 model StatusHistory {
-    id          Int           @id @default(autoincrement())
-    date        DateTime
-    status      ServiceStatus
-    description String?
-    serviceId   Int
-    service     Service       @relation(fields: [serviceId], references: [id])
+    id        Int           @id @default(autoincrement())
+    date      DateTime
+    status    ServiceStatus
+    serviceId Int
+    service   Service       @relation(fields: [serviceId], references: [id])
 }
 
 model Incident {

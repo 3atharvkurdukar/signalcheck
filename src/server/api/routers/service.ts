@@ -21,7 +21,6 @@ export const serviceRouter = createTRPCRouter({
             create: {
               status: status,
               date: new Date(),
-              description: "A new service was added",
             },
           },
         },
@@ -56,39 +55,36 @@ export const serviceRouter = createTRPCRouter({
 
   updateServiceStatus: protectedProcedure
     .input(updateServiceStatusSchema)
-    .mutation(
-      async ({ ctx: { db }, input: { serviceId, status, description } }) => {
-        const service = await db.service.findUnique({
-          where: {
-            id: serviceId,
-          },
+    .mutation(async ({ ctx: { db }, input: { serviceId, status } }) => {
+      const service = await db.service.findUnique({
+        where: {
+          id: serviceId,
+        },
+      });
+
+      if (!service) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Service not found",
         });
+      }
 
-        if (!service) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "Service not found",
-          });
-        }
-
-        const updatedService = await db.service.update({
-          where: {
-            id: serviceId,
-          },
-          data: {
-            statusHistory: {
-              create: {
-                status: status,
-                date: new Date(),
-                description: description,
-              },
+      const updatedService = await db.service.update({
+        where: {
+          id: serviceId,
+        },
+        data: {
+          statusHistory: {
+            create: {
+              status: status,
+              date: new Date(),
             },
           },
-        });
+        },
+      });
 
-        return updatedService;
-      },
-    ),
+      return updatedService;
+    }),
 
   deleteService: protectedProcedure
     .input(deleteServiceSchema)
