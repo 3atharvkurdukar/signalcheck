@@ -1,18 +1,15 @@
 import { type ServiceStatus as Status } from "@prisma/client";
-import { type ServiceUpdate } from "types";
+import { type RouterOutputs } from "~/trpc/react";
 import ServiceStatus from "./ServiceStatus";
 import StatusLabel from "./StatusLabel";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-interface ServiceListCardProps {
-  services: ServiceUpdate[];
+interface ServiceListProps {
+  services: RouterOutputs["service"]["getLatestServiceUpdate"];
   overallStatus: Status;
 }
 
-export const ServiceList = ({
-  services,
-  overallStatus,
-}: ServiceListCardProps) => {
+export const ServiceList = ({ services, overallStatus }: ServiceListProps) => {
   return (
     <div className="my-4 flex flex-col space-y-4">
       <Card>
@@ -28,7 +25,7 @@ export const ServiceList = ({
           <ServiceStatus
             key={index}
             name={name}
-            status={status as Status | null}
+            status={status}
             statusHistory={statusHistory}
           />
         ))}

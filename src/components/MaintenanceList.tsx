@@ -1,11 +1,11 @@
-import { type Maintenance as MaintenanceType } from "@prisma/client";
+import { type RouterOutputs } from "~/trpc/react";
 import Maintenance from "./Maintenance";
 import { Card, CardContent } from "./ui/card";
 
 export default function MaintenanceList({
   maintenanceEvents,
 }: {
-  maintenanceEvents: MaintenanceType[];
+  maintenanceEvents: RouterOutputs["maintenance"]["listMaintenance"];
 }) {
   return (
     <div>

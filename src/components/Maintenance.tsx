@@ -1,7 +1,10 @@
 import { Calendar, Clock, PenToolIcon as Tool } from "lucide-react";
-import { type MaintenanceDetails } from "types";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { type RouterOutputs } from "~/trpc/react";
+
+type MaintenanceDetails =
+  RouterOutputs["maintenance"]["listMaintenance"][number];
 
 export default function Maintenance({
   title,

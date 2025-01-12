@@ -1,5 +1,4 @@
 import { AlertTriangle } from "lucide-react";
-import { type IncidentDetails } from "types";
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +6,9 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { type RouterOutputs } from "~/trpc/react";
+
+type IncidentDetails = RouterOutputs["incident"]["listIncidents"][number];
 
 export default function Incident({
   title,

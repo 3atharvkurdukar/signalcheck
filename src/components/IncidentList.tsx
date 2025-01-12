@@ -1,11 +1,11 @@
-import { type IncidentDetails } from "types";
+import { type RouterOutputs } from "~/trpc/react";
 import Incident from "./Incident";
 import { Card, CardContent } from "./ui/card";
 
 export default function IncidentList({
   incidents,
 }: {
-  incidents: IncidentDetails[];
+  incidents: RouterOutputs["incident"]["listIncidents"];
 }) {
   return (
     <div>
