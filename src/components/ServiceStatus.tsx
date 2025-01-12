@@ -2,7 +2,7 @@ import {
   type ServiceStatus as Status,
   type StatusHistory,
 } from "@prisma/client";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
@@ -29,7 +29,7 @@ const getStatusColor = (status: Status | null) => {
     case "MAJOR_OUTAGE":
       return "bg-red-500";
     default:
-      return "bg-zinc-300";
+      return "bg-zinc-300 dark:bg-zinc-700";
   }
 };
 
@@ -61,11 +61,15 @@ export default function ServiceStatus({
 
   return (
     <Card>
-      <CardContent className="p-4">
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-lg font-medium">{name}</span>
-          <StatusLabel status={status} showIcon />
-        </div>
+      <CardHeader>
+        <CardTitle>
+          <div className="flex items-center justify-between">
+            <span>{name}</span>
+            <StatusLabel status={status} showIcon />
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
         <div className="flex space-x-0.5">
           {last30DaysStatus.map(({ date, status }, index) => (
             <TooltipProvider key={index}>

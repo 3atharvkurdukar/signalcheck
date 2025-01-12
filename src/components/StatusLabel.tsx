@@ -33,20 +33,20 @@ export const StatusLabel = ({
   const getStatusIcon = (status: ServiceStatus | null) => {
     switch (status) {
       case "OPERATIONAL":
-        return <CheckCircle className="h-6 w-6" />;
+        return <CheckCircle className="h-5 w-5" />;
       case "DEGRADED":
-        return <AlertTriangle className="h-6 w-6" />;
+        return <AlertTriangle className="h-5 w-5" />;
       case "PARTIAL_OUTAGE":
-        return <AlertOctagon className="h-6 w-6" />;
+        return <AlertOctagon className="h-5 w-5" />;
       case "MAJOR_OUTAGE":
-        return <XOctagon className="h-6 w-6" />;
+        return <XOctagon className="h-5 w-5" />;
       default:
-        return <HelpCircle className="h-6 w-6" />;
+        return <HelpCircle className="h-5 w-5" />;
     }
   };
 
   return (
-    <p className={`flex items-center gap-x-2 ${getStatusColor(status)}`}>
+    <p className={`flex items-center gap-x-1 ${getStatusColor(status)}`}>
       {showIcon && getStatusIcon(status)}
       <span>{getServiceStatusName(status)}</span>
     </p>
