@@ -59,8 +59,6 @@ export default function ServiceStatus({
 }: ServiceStatusProps) {
   const last30DaysStatus = getLast30DaysStatus(statusHistory);
 
-  console.log(last30DaysStatus);
-
   return (
     <Card>
       <CardContent className="p-4">

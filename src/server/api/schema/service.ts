@@ -9,7 +9,7 @@ export const createServiceSchema = z.object({
 export const updateServiceStatusSchema = z.object({
   serviceId: z.number(),
   status: z.nativeEnum(ServiceStatus),
-  description: z.string(),
+  description: z.string().optional(),
 });
 
 export const deleteServiceSchema = z.object({

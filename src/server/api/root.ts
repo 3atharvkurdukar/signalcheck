@@ -1,5 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { incidentRouter } from "./routers/incident";
+import { maintenanceRouter } from "./routers/maintenance";
 import { serviceRouter } from "./routers/service";
 
 /**
@@ -10,6 +11,7 @@ import { serviceRouter } from "./routers/service";
 export const appRouter = createTRPCRouter({
   service: serviceRouter,
   incident: incidentRouter,
+  maintenance: maintenanceRouter,
 });
 
 // export type definition of API

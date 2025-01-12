@@ -47,10 +47,9 @@ export const serviceRouter = createTRPCRouter({
     return services.map((service) => {
       const latestStatus = service.statusHistory.at(0);
       return {
-        name: service.name,
+        ...service,
         status: latestStatus?.status ?? null,
         date: latestStatus?.date ?? null,
-        statusHistory: service.statusHistory,
       };
     });
   }),
