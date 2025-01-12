@@ -1,5 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
+import { Toaster } from "~/components/ui/sonner";
 import "~/styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <ClerkProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </ClerkProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
